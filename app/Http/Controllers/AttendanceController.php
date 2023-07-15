@@ -1,11 +1,17 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Services\Attendance\AttendanceService;
 
 use Illuminate\Http\Request;
 
 class AttendanceController extends Controller
 {
+
+    public function __construct(private AttendanceService $attendanceService)
+    {
+    }
+
     /**
      * Display a listing of the resource.
      */
