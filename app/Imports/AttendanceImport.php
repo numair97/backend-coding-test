@@ -8,10 +8,10 @@ use Maatwebsite\Excel\Concerns\ToCollection;
 class AttendanceImport implements ToCollection
 {
     /**
-    * @param Collection $collection
+    * @param Collection<int,array> $collection
     */
-    public function collection(Collection $collection)
+    public function collection(Collection $collection): array
     {
-        //
+        return $collection->toArray();
     }
 }

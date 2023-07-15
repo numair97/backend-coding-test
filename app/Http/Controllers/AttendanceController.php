@@ -1,14 +1,19 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Services\Attendance\AttendanceService;
+use Illuminate\Support\Facades\Storage;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use App\Imports\AttendanceImport;
+use Maatwebsite\Excel\Facades\Excel;
 
 use Illuminate\Http\Request;
 
 class AttendanceController extends Controller
 {
 
-    public function __construct(private AttendanceService $attendanceService)
+    public function __construct(public AttendanceService $attendanceService)
     {
     }
 
@@ -33,7 +38,18 @@ class AttendanceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if (!$request->has('file')) {
+            return response()->json('No file provided', 400);
+        }
+
+        $fileName = $request->query('file');
+        
+        if (!Storage::exists($fileName)) {
+            return response()->json('File not found', 404);
+        }
+        $this->attendanceService->uploadAttendance($fileName);
+       
+        return response()->json('Attendance data stored successfully', 200);
     }
 
     /**
