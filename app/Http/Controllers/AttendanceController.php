@@ -24,7 +24,9 @@ class AttendanceController extends Controller
      */
     public function index()
     {
-        //
+        $attendances = Attendance::all();
+    
+    return view('welcome', compact('attendances'));
     }
 
     /**
