@@ -14,4 +14,5 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::apiResource('attendances', AttendanceController::class)->only(['index', 'store']);
+Route::post('attendances', [AttendanceController::class, 'store']);
+Route::get('employees/{emp_id}/attendances', [AttendanceController::class, 'show']);

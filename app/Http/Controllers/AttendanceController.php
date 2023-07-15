@@ -6,6 +6,8 @@ use App\Services\Attendance\AttendanceService;
 use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use App\Imports\AttendanceImport;
+use App\Models\Attendance;
+use App\Models\Employee;
 use Maatwebsite\Excel\Facades\Excel;
 
 use Illuminate\Http\Request;
@@ -55,9 +57,21 @@ class AttendanceController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $employeeId)
     {
-        //
+        $employee = Employee::findOrFail($employeeId);
+
+        $attendance = Attendance::where('employee_id', $employeeId)->get();
+
+        $totalWorkingHours = $attendance->sum('total_hours');
+
+        $response = [
+            'employee' => $employee,
+            'attendance' => $attendance,
+            'total_working_hours' => $totalWorkingHours,
+        ];
+
+        return response()->json($response);
     }
 
     /**
