@@ -65,12 +65,12 @@ class AttendanceController extends Controller
 
         $attendance = Attendance::where('employee_id', $employeeId)->get();
 
-        $totalWorkingHours = $attendance->sum('total_hours');
+        foreach ($attendance as $attendanceEntry) {
+            $attendanceEntry['employee'] = $employee;
+        }        
 
         $response = [
-            'employee' => $employee,
             'attendance' => $attendance,
-            'total_working_hours' => $totalWorkingHours,
         ];
 
         return response()->json($response);
